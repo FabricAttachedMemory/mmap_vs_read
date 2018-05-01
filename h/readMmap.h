@@ -9,6 +9,6 @@ class MmapRead: public BaseRead {
         MmapRead(std::string filePath)
             :BaseRead(filePath){}
 
-        void read();
+        virtual void read();
 
 }; //MMapRead class

@@ -18,14 +18,16 @@ float bench_the_mark(BaseRead* reader){
 
 int main(int argc, char * argv[]){
     string filePath = argv[1];
-    MmapRead mmapReader(filePath);
-    // BlockRead blockReader(filePath);
 
-    float runTime = bench_the_mark(&mmapReader);
+    MmapRead* mmapReader = new MmapRead(filePath);
+    float runTime = bench_the_mark(mmapReader);
     cout << "MMap() time: " << runTime << endl;
+    delete mmapReader;
 
-    // runTime = bench_the_mark(&blockReader);
-    // cout << "Read() time: " << runTime << endl;
-
+    BlockRead* blockReader = new BlockRead(filePath);
+    runTime = bench_the_mark(blockReader);
+    cout << "Read() time: " << runTime << endl;
+    delete blockReader;
+ 
     return 0;
 }//main

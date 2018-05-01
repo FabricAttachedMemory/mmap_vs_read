@@ -41,7 +41,7 @@ void MmapRead::read(){
         totalCharsRead += 1;
     }//for
 
-    printf("-- %d chars read. --\n", totalCharsRead);
+    printf("-- %d chars read using mmap(). --\n", totalCharsRead);
 
     if (munmap(map, fileStat.st_size) == -1) {
         perror("Error un-mmapping the file");

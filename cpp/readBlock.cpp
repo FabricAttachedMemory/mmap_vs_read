@@ -8,7 +8,7 @@ using namespace std;
 
 
 void BlockRead::read(){
-    std::ifstream is ("test.txt", std::ifstream::binary);
+    std::ifstream is (this->targetFile.c_str(), std::ifstream::binary);
     if (!is)
         return;
 
@@ -19,14 +19,14 @@ void BlockRead::read(){
 
     char * buffer = new char [length];
 
-    std::cout << "Reading " << length << " characters... ";
+    cout << "Reading " << length << " characters using read(). " << endl;
     // read data as a block:
     is.read (buffer,length);
 
     if (is)
-        std::cout << "all characters read successfully.";
+        cout << "all characters read successfully." << endl;
     else
-        std::cout << "error: only " << is.gcount() << " could be read";
+        cout << "error: only " << is.gcount() << " could be read" << endl;
     is.close();
 
     // ...buffer contains the entire file...

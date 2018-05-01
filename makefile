@@ -6,8 +6,14 @@ CC = g++
 CFLAGS = -g -Wall -W -Wfatal-errors -std=c++11
 
 # the build target executable:
-SRC = $(wildcard ./cpp/*.cpp)
+# SRC = $(wildcard ./cpp/*.cpp)
+SRC = ./cpp/readBlock.cpp ./cpp/readMmap.cpp ./cpp/runBench.cpp 
 OBJ = $(SRC:.cpp=.o)
+
+all: clean runbech
 
 runbech: $(OBJ)
 	$(CC) -o $@ $^ $(CFLAGS)
+
+clean :
+	-rm ./cpp/*.o ./runbech

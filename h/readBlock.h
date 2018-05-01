@@ -9,6 +9,6 @@ class BlockRead: public BaseRead {
         BlockRead(std::string filePath)
             :BaseRead(filePath){}
 
-        void read();
+        virtual void read();
 
 }; //MMapRead class
