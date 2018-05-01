@@ -1,6 +1,6 @@
 #include <string>
 
-#include "base.h"
+#include "../h/base.h"
 
 
 class MmapRead: public BaseRead {

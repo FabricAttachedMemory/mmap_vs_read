@@ -1,24 +1,24 @@
-#include <ctime>
-#include <stdio.h>
+#include <iostream>
 #include <fcntl.h>
 #include <stdlib.h>
-#include <iostream>
+#include <stdio.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/mman.h>
 #include <sys/types.h>
 
+#include "../h/readMmap.h"
+
 using namespace std;
 
-
-void read_file(char *filePath){
-    printf(" - Reading %s file\n", filePath);
+void MmapRead::read(){
+    printf(" - Reading %s file\n", this->targetFile.c_str());
     int fd;
     int *map;  /* mmapped array of int's */
 
     struct stat fileStat = {0};
 
-    fd = open(filePath, O_RDONLY);
+    fd = open(this->targetFile.c_str(), O_RDONLY);
     if (fd == -1) {
         perror("Error opening file for reading");
         exit(EXIT_FAILURE);
@@ -33,16 +33,15 @@ void read_file(char *filePath){
         exit(EXIT_FAILURE);
     }//if map
 
-    int totalLines = 0;
+    int totalCharsRead = 0;
     /* Read the file int-by-int from the mmap
      */
     for (off_t i = 1; i <= fileStat.st_size; ++i) {
-        //rintf("%d: %d\n", i, map[i]);
         map[i];
-        totalLines += 1;
-    }
+        totalCharsRead += 1;
+    }//for
 
-    printf("%d read\n", totalLines);
+    printf("-- %d chars read. --\n", totalCharsRead);
 
     if (munmap(map, fileStat.st_size) == -1) {
         perror("Error un-mmapping the file");
@@ -50,16 +49,4 @@ void read_file(char *filePath){
 
     close(fd);
 
-}//read_file
-
-
-int main(int argc, char *argv[]){
-    char * filepath = argv[1];
-
-    int startTime = clock();
-    read_file(filepath);
-    int endTime = clock();
-
-    cout << "time: " << (endTime - startTime) / double(CLOCKS_PER_SEC) << endl;
-    return 0;
-}//main
+}//read
