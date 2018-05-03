@@ -11,12 +11,15 @@
 
 using namespace std;
 
-void MmapRead::read(){
-    printf(" - Reading %s file\n", this->targetFile.c_str());
+#define NOT_USED(x) ( (void)(x) )
+
+void MmapRead::read(bool verbose){
+    if(verbose)
+        printf(" - Reading %s file\n", this->targetFile.c_str());
     int fd;
     int *map;  /* mmapped array of int's */
 
-    struct stat fileStat = {0};
+    struct stat fileStat;
 
     fd = open(this->targetFile.c_str(), O_RDONLY);
     if (fd == -1) {
@@ -37,11 +40,13 @@ void MmapRead::read(){
     /* Read the file int-by-int from the mmap
      */
     for (off_t i = 1; i <= fileStat.st_size; ++i) {
-        map[i];
+        int mmap_val = map[i];
+        NOT_USED(mmap_val);
         totalCharsRead += 1;
     }//for
 
-    printf("-- %d chars read using mmap(). --\n", totalCharsRead);
+    if(verbose)
+        printf("-- %d chars read using mmap(). --\n", totalCharsRead);
 
     if (munmap(map, fileStat.st_size) == -1) {
         perror("Error un-mmapping the file");

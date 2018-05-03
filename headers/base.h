@@ -9,7 +9,9 @@ class BaseRead {
         BaseRead(std::string filePath)
                 :targetFile(filePath){}
 
-        virtual void read() { std::cout << "I am a potato!" << std::endl; }
+        virtual ~BaseRead() { }
+
+        virtual void read(bool verbose=true) = 0;
         std::string GetFilePath() const { return targetFile; }
 
     protected:

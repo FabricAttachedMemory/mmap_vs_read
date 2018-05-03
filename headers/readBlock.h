@@ -9,6 +9,8 @@ class BlockRead: public BaseRead {
         BlockRead(std::string filePath)
             :BaseRead(filePath){}
 
-        virtual void read();
+        virtual ~BlockRead() = default;
+
+        virtual void read(bool verbose=true);
 
 }; //MMapRead class
