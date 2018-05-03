@@ -1,13 +1,13 @@
 #include <string>
 
-#include "../h/base.h"
+#include "base.h"
 
 
 class BlockRead: public BaseRead {
 
     public:
         BlockRead(std::string filePath)
-            :BaseRead(filePath){}
+            :BaseRead(filePath){ SetName("BlockDataRead"); }
 
         virtual ~BlockRead() = default;
 

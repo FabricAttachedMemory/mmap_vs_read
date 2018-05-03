@@ -2,7 +2,7 @@
 #include <fstream>      // std::ifstream
 #include <iostream>     // std::cout
 
-#include "../h/readBlock.h"
+#include "../headers/readBlock.h"
 
 using namespace std;
 

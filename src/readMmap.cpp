@@ -7,11 +7,11 @@
 #include <sys/mman.h>
 #include <sys/types.h>
 
-#include "../h/readMmap.h"
+#include "../headers/readMmap.h"
 
 using namespace std;
 
-#define NOT_USED(x) ( (void)(x) )
+// #define NOT_USED(x) ( (void)(x) )
 
 void MmapRead::read(bool verbose){
     if(verbose)
@@ -40,8 +40,7 @@ void MmapRead::read(bool verbose){
     /* Read the file int-by-int from the mmap
      */
     for (off_t i = 1; i <= fileStat.st_size; ++i) {
-        int mmap_val = map[i];
-        NOT_USED(mmap_val);
+        map[i];
         totalCharsRead += 1;
     }//for
 

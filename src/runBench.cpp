@@ -1,20 +1,29 @@
+#include <list>
 #include <ctime>
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
+#include <unistd.h>
 #include "sys/sysinfo.h"
 #include <sys/resource.h>
 
-#include "../hayai/hayai.hpp" // https://github.com/nickbruun/hayai
 #include <benchmark/benchmark.h>
-#include "../h/readMmap.h"
-#include "../h/readBlock.h"
+#include "../headers/readMmap.h"
+#include "../headers/readBlock.h"
 
 using namespace std;
 
 
 string FILE_PATH = "";
 
+struct BenchData {
+    string name;
+    long vram;
+    long dram;
+    double runtime;
+};
+
+list<BenchData> RESULTS;
 
 /*
 Source: https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-run-time-in-c
@@ -58,51 +67,74 @@ void process_mem_usage(double& vm_usage, double& resident_set)
 
 
 
-float bench_the_mark(BaseRead* reader){
+BenchData bench_the_mark(BaseRead* reader){
     double vm, rss;
+    BenchData data;
 
-    int startTime = clock();
-    reader->read();
-    int endTime = clock();
+    double startTime = clock();
+    reader->read(false);
+    double endTime = clock();
     process_mem_usage(vm, rss);
 
-    cout << "VM: " << vm << "; RSS: " << rss << endl;
+    // cout << "VM: " << vm << "; RSS: " << rss << endl;
 
-    return (endTime - startTime) / double(CLOCKS_PER_SEC);
+    double runtime = (endTime - startTime) / double(CLOCKS_PER_SEC);
+    data.name = reader->GetName();
+    data.dram = rss;
+    data.vram = vm;
+    data.runtime = runtime;
+
+    return data;
 }//bench_the_mark
 
 
-void mmap_test(){
+BenchData mmap_test(){
     MmapRead* mmapReader = new MmapRead(FILE_PATH);
-    float runtime = bench_the_mark(mmapReader);
-    cout << "Mmap time: " << runtime << endl;
+    BenchData data = bench_the_mark(mmapReader);
+    // cout << "Mmap time: " << runtime << endl;
+    RESULTS.push_front(data);
     delete mmapReader;
+    return data;
 }//mmap_test
 
 
-void block_test(){
+BenchData block_test(){
     BlockRead* blockReader = new BlockRead(FILE_PATH);
-    float runtime = bench_the_mark(blockReader);
-    cout << "Mmap time: " << runtime << endl;
+    BenchData data = bench_the_mark(blockReader);
+    RESULTS.push_back(data);
+    // cout << "Mmap time: " << runtime << endl;
     delete blockReader;
+    return data;
 }//block_test
 
 
+void updateStateData(benchmark::State& state, BenchData& data){
+    state.counters["Runtime(Raw)"] = data.runtime;
+    state.counters["VRAM"] = data.vram;
+    state.counters["DRAM"] = data.dram;
+}
+
 static void BM_Mmap(benchmark::State& state){
-    for (auto _ : state) //do not use "while keep running". this is the way by creator's recommendations.
-        mmap_test();
+    BenchData data;
+    for (auto _ : state){ //do not use "while keep running". this is the way by creator's recommendations.
+        data = mmap_test();
+    }
+    updateStateData(state, data);
 }//BM_Mmap
 
 
 static void BM_Block(benchmark::State& state){
-    for (auto _ : state) //do not use "while keep running". this is the way by creator's recommendations.
-        block_test();
+    BenchData data;
+    for (auto _ : state){ //do not use "while keep running". this is the way by creator's recommendations.
+        data = block_test();
+    }
+    updateStateData(state, data);
 }//BM_Mmap
 
 
 
-BENCHMARK(BM_Mmap)->Unit(benchmark::kMillisecond)->UseRealTime();;
-BENCHMARK(BM_Block)->Unit(benchmark::kMillisecond)->UseRealTime();;
+BENCHMARK(BM_Mmap)->Unit(benchmark::kMillisecond)->UseRealTime()->Complexity(benchmark::oN);
+BENCHMARK(BM_Block)->Unit(benchmark::kMillisecond)->UseRealTime()->Complexity(benchmark::oN);
 /*
 BENCHMARK(Mmap_vs_Read, MmapRead, 1, 1){
     mmap_test();
@@ -115,28 +147,22 @@ BENCHMARK(Mmap_vs_Read, BlockRead, 1, 1){
 */
 
 
+void showResults(){
+    cout << "name | runtime | vram | dram " << endl; 
+    for (auto const& i : RESULTS) {
+        cout << i.name << " | " <<
+            i.runtime << " | " <<
+            i.vram << " | " <<
+            i.dram << endl;
+    }//for
+}//ShowResults
+
 
 int main(int argc, char * argv[]){
     FILE_PATH = argv[1];
-    // FILE_PATH = "../test.data";
+
     benchmark::Initialize(&argc, argv);
     benchmark::RunSpecifiedBenchmarks();
 
-    cout << "\n -- Runing Raw --" << endl;
-
-    mmap_test();
-    block_test();
-
-    /*  
-    std::filebuf fb;
-    fb.open ("logs/bench.log",std::ios::out);
-    std::ostream os(&fb);
-    
-    // Set up the main runner.
-    hayai::ConsoleOutputter consoleOutputter;
-    hayai::JsonOutputter jsoner(os);
-    hayai::Benchmarker::AddOutputter(jsoner);
-    hayai::Benchmarker::RunAllTests();
-    */
     return 0;
 }//run
