@@ -1,3 +1,6 @@
+#ifndef READBLOCK_H
+#define READBLOCK_H
+
 #include <string>
 
 #include "base.h"
@@ -14,3 +17,5 @@ class BlockRead: public BaseRead {
         virtual void read(bool verbose=true);
 
 }; //MMapRead class
+
+#endif

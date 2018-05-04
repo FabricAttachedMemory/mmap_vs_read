@@ -1,0 +1,58 @@
+{
+  "context": {
+    "date": "2018-05-04 14:21:50",
+    "executable": "./runbech",
+    "num_cpus": 8,
+    "mhz_per_cpu": 3600,
+    "cpu_scaling_enabled": true,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32000000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32000000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 256000000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 8192000000,
+        "num_sharing": 8
+      }
+    ],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_Mmap/real_time",
+      "iterations": 13,
+      "real_time": 5.2050258153870416e+01,
+      "cpu_time": 5.2048269615384626e+01,
+      "time_unit": "ms",
+      "DRAM": 9.5254320000000000e+06,
+      "Runtime(Raw)": 5.1732000000000000e-02,
+      "VRAM": 1.5692000000000000e+04
+    },
+    {
+      "name": "BM_Block/real_time",
+      "iterations": 3,
+      "real_time": 2.2220412766910158e+02,
+      "cpu_time": 2.2219308566666666e+02,
+      "time_unit": "ms",
+      "DRAM": 9.5254320000000000e+06,
+      "Runtime(Raw)": 2.2238800000000000e-01,
+      "VRAM": 1.5692000000000000e+04
+    }
+  ]
+}

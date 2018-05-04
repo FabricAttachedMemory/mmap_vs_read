@@ -8,7 +8,7 @@ CXXFLAGS = --std=c++11 -Wall -W -Wfatal-errors -lbenchmark -lpthread -O2
 
 # # the build target executable:
 # # SRC = $(wildcard ./cpp/*.cpp)
-SRC = ./src/readBlock.cpp ./src/readMmap.cpp ./src/runBench.cpp 
+SRC = ./src/readBlock.cpp ./src/readMmap.cpp ./src/runBench.cpp ./src/measures.cpp
 # INCLUDES = -I /usr/include/hayia -I /usr/local/include
 # # SRC = ./cpp/*.cpp
 OBJ = $(SRC:.cpp=.o)
@@ -19,4 +19,4 @@ runbech: $(OBJ)
 	$(CC) -o $@ $^ $(CXXFLAGS)
 
 clean :
-	-rm ./cpp/*.o ./runbech
+	-rm ./src/*.o ./runbech
