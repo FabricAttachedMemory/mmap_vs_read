@@ -4,7 +4,7 @@ CC = g++
 # compiler flags:
 #  -g    adds debugging information to the executable file
 #  -Wall turns on most, but not all, compiler warnings
-CXXFLAGS = --std=c++11 -Wall -W -Wfatal-errors -lbenchmark -lpthread -O2
+CXXFLAGS = --std=c++11 -Wall -W -Wfatal-errors -lpthread -O2
 
 SRC_DIR = ./src
 # # the build target executable:

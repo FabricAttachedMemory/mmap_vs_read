@@ -27,7 +27,7 @@ Header
 
 
     COUNTER=0
-    while [  $COUNTER -lt $ITERATIONS ]; do
+    while [ $COUNTER -lt $ITERATIONS ]; do
         echo "**********--- $COUNTER ---***********" >> $logfile
         echo " - Iteration: $COUNTER"
         strace -c ./$script $TEST_FILE 2>> $logfile
