@@ -1,0 +1,9 @@
+Architecture:          aarch64
+Byte Order:            Little Endian
+CPU(s):                28
+On-line CPU(s) list:   0-27
+Thread(s) per core:    1
+Core(s) per socket:    28
+Socket(s):             1
+NUMA node(s):          1
+NUMA node0 CPU(s):     0-27
