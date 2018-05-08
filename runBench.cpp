@@ -8,9 +8,9 @@
 #include <sys/resource.h>
 
 #include <benchmark/benchmark.h>
-#include "../headers/readMmap.h"
-#include "../headers/readBlock.h"
-#include "../headers/measures.h"
+#include "headers/readMmap.h"
+#include "headers/readBlock.h"
+#include "headers/measures.h"
 
 using namespace std;
 

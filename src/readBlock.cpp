@@ -18,13 +18,24 @@ void BlockRead::read(bool verbose){
     is.seekg (0, is.beg);
 
     char * buffer = new char [length];
-    if(verbose)
+    if(verbose){
         cout << "Reading " << length << " characters using read(). " << endl;
-    // read data as a block:
-    is.read (buffer,length);
+    }
 
     if (!is)
         cout << "error: only " << is.gcount() << " could be read" << endl;
+    
+    int64_t charsRead = 0;
+
+    // read data as a block:
+    if(is.read(&buffer[0], length)){
+        for(charsRead = 0; charsRead < length; charsRead++)
+            buffer[charsRead];
+    }//if read
+
+    if(verbose)
+        cout << charsRead << " has read." << endl;
+    
 
     is.close();
 

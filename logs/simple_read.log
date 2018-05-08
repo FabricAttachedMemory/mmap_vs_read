@@ -1,7 +1,0 @@
- - Reading ../test.data file
--- 536870896 chars read using mmap(). --
-VM: 13340; RSS: 3204
-Mmap time: 1.19387
-Reading 536870896 characters using read(). 
-VM: 13340; RSS: 3396
-Mmap time: 0.112795
