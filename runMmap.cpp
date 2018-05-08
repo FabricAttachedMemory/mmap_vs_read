@@ -7,7 +7,7 @@ int main(int argc, char * argv[]){
     string file_path = argv[1];
 
     MmapRead* mmapReader = new MmapRead(file_path);
-    mmapReader->read();
+    mmapReader->read(false);
 
     return 0;
 }//run

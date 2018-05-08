@@ -7,7 +7,7 @@ int main(int argc, char * argv[]){
     string file_path = argv[1];
 
     BlockRead* blockReader = new BlockRead(file_path);
-    blockReader->read();
+    blockReader->read(false);
 
     return 0;
 }//run
