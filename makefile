@@ -28,5 +28,10 @@ all: blockread mmapread
 runbech: $(OBJ)
 	$(CC) -o $@ $^ $(CXXFLAGS)
 
+
+logParser: clean
+	$(CC) $(CXXFLAGS) -o logParser src/logParser.cpp
+
+
 clean :
-	-rm ./src/*.o ./runbench ./runBlockRead ./runMmap
+	-rm ./src/*.o ./runbench ./runBlockRead ./runMmap ./logParser
